@@ -3,9 +3,8 @@
 // ------------
 // Entry point
 // ------------
-int main()
+int WinMain()
 {
-	Init app;
-	app.game();
+	game();
 	return 0;
 }

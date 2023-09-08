@@ -7,13 +7,31 @@
 #include <string>
 #include <iostream>
 
+// --------------------
+// Functions prototype
+// --------------------
+void game();
+
 // --------
 // Classes
 // --------
-class Init
+class Counter
 {
+private:
+	int count = 0;
 public:
-	void game();
+	void add_count()
+	{
+		count++;
+	}
+	void clear_count()
+	{
+		count = 0;
+	}
+	int get_count()
+	{
+		return count;
+	}
 };
 
 // --------

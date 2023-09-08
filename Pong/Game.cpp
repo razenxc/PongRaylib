@@ -1,8 +1,8 @@
-// Pong v1.0.1
+// Pong v2.0.0
 
 #include "Game.h"
 
-void Init::game()
+void game()
 {	
 	int screen_width = 800;
 	int screen_height = 600;
@@ -13,8 +13,24 @@ void Init::game()
 	// ----------
 	// Variables
 	// ----------
+
+	// Texts
 	const char* txt_winner = nullptr;
 	const char* txt_playagain = "Play again - Press space.";
+
+	// Prevents wins from being counted more than once in a cycle until the game starts again
+	bool winner_is = false;
+
+	// Default colors
+	Color background_color = BLACK;
+	Color score_color = YELLOW;
+	Color wins_color = BLUE;
+
+	// Counters
+	Counter lp_score;
+	Counter rp_score;
+	Counter lp_wins;
+	Counter rp_wins;
 
 	// --------
 	// Objects Variables
@@ -64,6 +80,42 @@ void Init::game()
 
 	while (!WindowShouldClose())
 	{	
+		// -----------------------------
+		// Non-game proccess conditions
+		// -----------------------------
+
+		// -------------------
+		// Change game colors
+		if (IsKeyDown(KEY_ONE))
+		{
+			left_paddle.color = WHITE;
+			right_paddle.color = WHITE;
+			ball.color = WHITE;
+			background_color = BLACK;
+			score_color = YELLOW;
+			wins_color = BLUE;
+		}
+
+		if (IsKeyDown(KEY_TWO))
+		{
+			left_paddle.color = BLACK;
+			right_paddle.color = BLACK;
+			ball.color = BLACK;
+			background_color = WHITE;
+			wins_color = RED;
+			score_color = GREEN;
+		}
+
+		if (IsKeyDown(KEY_THREE))
+		{
+			left_paddle.color = YELLOW;
+			right_paddle.color = YELLOW;
+			ball.color = YELLOW;
+			background_color = BLUE;
+			wins_color = WHITE;
+			score_color = GREEN;
+		}
+
 		// -------------------
 		// Game objects logic
 		// -------------------
@@ -85,13 +137,17 @@ void Init::game()
 		}
 
 		// Ball out of screen
-		if (ball.x < 0)
+		if (ball.x < 0 && !winner_is)
 		{
 			txt_winner = "Right player win";
+			rp_wins.add_count();
+			winner_is = true;
 		}
-		if (ball.x > GetScreenWidth())
+		if (ball.x > GetScreenWidth() && !winner_is)
 		{
 			txt_winner = "Left player win";
+			lp_wins.add_count();
+			winner_is = true;
 		}
 
 		// --------
@@ -140,6 +196,7 @@ void Init::game()
 				ball.speedX *= -1.1f;
 				ball.speedY += -1.1f;
 			}
+			lp_score.add_count();
 		}
 		if (CheckCollisionCircleRec(Vector2{ (float)ball.x,(float)ball.y }, ball.radius, right_paddle.GetPos()))
 		{
@@ -148,27 +205,38 @@ void Init::game()
 				ball.speedX *= -1.1f;
 				ball.speedY += -1.1f;
 			}
+			rp_score.add_count();
 		}
 
 		// ----------------
 		// Game conditions
 		if (txt_winner && IsKeyPressed(KEY_SPACE))
 		{
+			// reset ball cords and speed
 			ball.x = ball.defX;
 			ball.y = ball.defY;
 			ball.speedX = ball.defSpeedX;
 			ball.speedY = ball.defSpeedY;
 
+			// reset paddle cords
 			left_paddle.x = left_paddle.defX;
 			left_paddle.y = left_paddle.defY;
 			right_paddle.x = right_paddle.defX;
 			right_paddle.y = right_paddle.defY;
 
+			// reset current winner
 			txt_winner = nullptr;
+
+			// reset score
+			lp_score.clear_count();
+			rp_score.clear_count();
+
+			// set false winner_is
+			winner_is = false;
 		}
 
 		BeginDrawing();	
-		ClearBackground(BLACK);
+		ClearBackground(background_color);
 
 		// ------------------
 		// Draw game objects
@@ -176,6 +244,25 @@ void Init::game()
 		ball.Draw();
 		left_paddle.Draw();
 		right_paddle.Draw();
+
+		// ------
+		// Score
+		// ------
+		
+		// Score
+
+		DrawText("Score", GetScreenWidth() / 2 - (90 / 2), GetScreenHeight() - 60, 30, score_color);
+		DrawText(static_cast<const char*>(std::to_string(lp_score.get_count()).c_str()),
+			20, GetScreenHeight() - 60, 60, score_color);
+		DrawText(static_cast<const char*>(std::to_string(rp_score.get_count()).c_str()),
+			GetScreenWidth() - 50, GetScreenHeight() - 60, 60, score_color);
+
+		// Wins
+		DrawText("Wins", GetScreenWidth() / 2 - (63 / 2), 20, 30, wins_color);
+		DrawText(static_cast<const char*>(std::to_string(lp_wins.get_count()).c_str()),
+			20, 20, 60, wins_color);
+		DrawText(static_cast<const char*>(std::to_string(rp_wins.get_count()).c_str()),
+			GetScreenWidth() - 50, 20, 60, wins_color);
 
 		// ----------------
 		// Game conditions
