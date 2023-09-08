@@ -1,3 +1,5 @@
+// Pong v1.0.1
+
 #include "Game.h"
 
 void Init::game()
@@ -17,29 +19,43 @@ void Init::game()
 	// --------
 	// Objects Variables
 	// --------
-
 	Ball ball;
-	ball.x = GetScreenWidth() / 2;
-	ball.y = GetScreenHeight() / 2;
+
+	ball.defX = GetScreenWidth() / 2;
+	ball.defY = GetScreenHeight() / 2;
+	ball.defSpeedX = 200.0f;
+	ball.defSpeedY = 200.0f;
+
+	ball.x = ball.defX;
+	ball.y = ball.defY;
 	ball.radius = 7;
-	ball.speedX = 200.0f;
-	ball.speedY = 200.0f;
+	ball.speedX = ball.defSpeedX;
+	ball.speedY = ball.defSpeedY;
 	ball.color = WHITE;
 
 	Paddle left_paddle;
-	left_paddle.x = 25;
-	left_paddle.y = GetScreenHeight() / 2;
+
+	left_paddle.defX = 25;
+	left_paddle.defY = GetScreenHeight() / 2;
+	left_paddle.defSpeed = 500;
+
+	left_paddle.x = left_paddle.defX;
+	left_paddle.y = left_paddle.defY;
 	left_paddle.width = 10;
 	left_paddle.height = 100;
-	left_paddle.speed = 500;
+	left_paddle.speed = left_paddle.defSpeed;
 	left_paddle.color = WHITE;
 
 	Paddle right_paddle;
-	right_paddle.x = GetScreenWidth() - left_paddle.x;
-	right_paddle.y = GetScreenHeight() / 2;
+
+	right_paddle.defX = GetScreenWidth() - left_paddle.x;
+	right_paddle.defY = GetScreenHeight() / 2;
+
+	right_paddle.x = right_paddle.defX;
+	right_paddle.y = right_paddle.defY;
 	right_paddle.width = 10;
 	right_paddle.height = 100;
-	right_paddle.speed = 500;
+	right_paddle.speed = left_paddle.defSpeed;
 	right_paddle.color = WHITE;
 
 	// ----------
@@ -138,15 +154,15 @@ void Init::game()
 		// Game conditions
 		if (txt_winner && IsKeyPressed(KEY_SPACE))
 		{
-			ball.x = GetScreenWidth() / 2;
-			ball.y = GetScreenHeight() / 2;
-			ball.speedX = 200.0f;
-			ball.speedY = 200.0f;
+			ball.x = ball.defX;
+			ball.y = ball.defY;
+			ball.speedX = ball.defSpeedX;
+			ball.speedY = ball.defSpeedY;
 
-			left_paddle.x = 25;
-			left_paddle.y = GetScreenHeight() / 2;
-			right_paddle.x = GetScreenWidth() - left_paddle.x;
-			right_paddle.y = GetScreenHeight() / 2;
+			left_paddle.x = left_paddle.defX;
+			left_paddle.y = left_paddle.defY;
+			right_paddle.x = right_paddle.defX;
+			right_paddle.y = right_paddle.defY;
 
 			txt_winner = nullptr;
 		}
