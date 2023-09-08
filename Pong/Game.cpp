@@ -13,7 +13,7 @@ void game()
 	// ----------
 	// Variables
 	// ----------
-
+	
 	// Texts
 	const char* txt_winner = nullptr;
 	const char* txt_playagain = "Play again - Press space.";
@@ -32,9 +32,9 @@ void game()
 	Counter lp_wins;
 	Counter rp_wins;
 
-	// --------
+	// ------------------
 	// Objects Variables
-	// --------
+	// ------------------
 	Ball ball;
 
 	ball.defX = GetScreenWidth() / 2;
