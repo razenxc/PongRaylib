@@ -3,7 +3,7 @@
 // ------------
 // Entry point
 // ------------
-int WinMain()
+int main()
 {
 	game();
 	return 0;
