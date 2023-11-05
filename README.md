@@ -8,7 +8,7 @@ This variant of the game is my first game written in C++.
 ![image](https://github.com/razenxc/Pong/assets/84779107/2e20fe4a-dec8-4580-bf59-e0246511853b)
 
 ## Building
-- `cmake cmake -B build`
+- `cmake -B build`
 - `cmake --build build --config Release`
 
 ## Third-party
