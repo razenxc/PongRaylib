@@ -7,5 +7,9 @@ This variant of the game is my first game written in C++.
 ![image](https://github.com/razenxc/Pong/assets/84779107/3be57f9b-a68c-4ae5-9e74-82b458b3aed1)
 ![image](https://github.com/razenxc/Pong/assets/84779107/2e20fe4a-dec8-4580-bf59-e0246511853b)
 
+## Building
+- `cmake cmake -B build`
+- `cmake --build build --config Release`
+
 ## Third-party
 - [Raylib](https://github.com/raysan5/raylib)
